@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Toolbar.Popup.AppCompat" parent="Theme.AppCompat.Light">
+
+    </style>
+
+    <style name="Base.AppCompat.Responsive" parent="Theme.AppCompat.Light">
+
+        <item name="windowActionModeOverlay">true</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+
+        <!-- Action Mode styles -->
+        <item name="actionModeStyle">@style/Custom.Widget.ActionMode</item>
+        <item name="actionModeBackground">@android:color/holo_red_light</item>
+        <item name="actionModeCloseButtonStyle">@style/Custom.Widget.ActionButton.CloseMode</item>
+
+        <!-- Toolbar styles -->
+        <item name="toolbarStyle">@style/Custom.Widget.Toolbar</item>
+        <item name="toolbarNavigationButtonStyle">@style/Custom.Widget.Toolbar.Button.Navigation</item>
+        <item name="actionOverflowButtonStyle">@style/Custom.Widget.ActionButton.Overflow</item>
+
+    </style>
+
+    <style name="AppTheme.AppCompat.Responsive" parent="Base.AppCompat.Responsive">
+
+        <!-- Actionbar styles -->
+        <item name="actionBarTheme">@style/Toolbar.AppCompat.Responsive</item>
+        <item name="actionBarPopupTheme">@style/Toolbar.Popup.AppCompat</item>
+
+    </style>
+
+    <style name="Toolbar.AppCompat.Responsive" parent="Base.AppCompat.Responsive">
+
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="colorControlHighlight">@android:color/holo_blue_light</item>
+
+    </style>
+
+</resources>

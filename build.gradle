@@ -25,3 +25,11 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext.parseSdkVersion = { sdk ->
+    try {
+        return Integer.parseInt(sdk)
+    } catch (NumberFormatException ex) {
+        return sdk
+    }
+}
