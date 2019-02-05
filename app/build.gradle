@@ -43,6 +43,8 @@ dependencies {
     implementation "com.github.bumptech.glide:glide:$GLIDE_VERSION"
     annotationProcessor "com.github.bumptech.glide:compiler:$GLIDE_VERSION"
 
+    implementation project(':BottomBar')
+
     testImplementation "junit:junit:$J_UNIT_VERSION"
     androidTestImplementation "com.android.support.test:runner:$SUPPORT_TEST_RUNNER_VERSION"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$ESPRESSO_CORE_VERSION"

@@ -5,4 +5,7 @@
     <color name="colorPrimaryDark">#EF4835</color>
     <color name="colorAccent">#FFD97D</color>
 
+    <color name="bg_main">#F3F3F3</color>
+
+    <color name="bb_inActiveTabColor">#BEBEBE</color>
 </resources>

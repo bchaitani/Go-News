@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        icon="@drawable/ic_tab_top_headlines"
+        id="@+id/navigation_top_head_lines"
+        title="@string/menu_title_top_headlines" />
+
+    <tab
+        icon="@drawable/ic_tab_explore"
+        id="@+id/navigation_explore"
+        title="@string/menu_title_explore" />
+
+    <tab
+        icon="@drawable/ic_tab_settings"
+        id="@+id/navigation_settings"
+        title="@string/menu_title_settings" />
+</tabs>
