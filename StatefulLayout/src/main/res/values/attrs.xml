@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="StatefulLayout">
+        <attr name="stf_AnimationEnabled" format="boolean" />
+        <attr name="stf_InAnimation" format="reference" />
+        <attr name="stf_OutAnimation" format="reference" />
+    </declare-styleable>
+
+</resources>

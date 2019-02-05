@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">StatefulLayout</string>
+
+    <string name="login">Login</string>
+    <string name="retry">Retry</string>
+
+    <string name="msg_not_logged_in">Login in order to keep track of all your service requests.</string>
+
+    <string name="error_no_connection">Whoops! No Internet connection found. Check your internet connection or try again.</string>
+
+    <string name="error_message">An error occurred please try again later</string>
+    <string name="offline_message">Please check your connection</string>
+    <string name="location_off_message">Please enable location services</string>
+    <string name="empty_message">There are no items</string>
+    <string name="loading_message">Loading..</string>
+</resources>

@@ -8,4 +8,8 @@
     <color name="bg_main">#F3F3F3</color>
 
     <color name="bb_inActiveTabColor">#BEBEBE</color>
+
+    <color name="place_holder">#CECECE</color>
+
+    <color name="text_color_primary">#4D4D4D</color>
 </resources>

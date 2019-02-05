@@ -1,0 +1,32 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:id="@+id/container"
+        style="@style/ContainerStyle"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+        <ProgressBar
+            android:id="@+id/progress"
+            style="@style/ProgressStyle" />
+
+        <ImageView
+            android:id="@+id/image"
+            style="@style/ImageStyle"
+            app:srcCompat="@drawable/ic_no_connection" />
+
+        <TextView
+            android:id="@+id/message"
+            style="@style/MessageStyle"
+            android:text="@string/error_no_connection" />
+
+        <Button
+            android:id="@+id/button"
+            style="@style/ButtonStyle"
+            android:text="@string/retry" />
+
+    </LinearLayout>
+
+</merge>
