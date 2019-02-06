@@ -1,14 +1,15 @@
 <resources>
     <string name="app_name">GoNews</string>
 
-
     <string name="action_search">Search</string>
+    <string name="action_share">Share</string>
 
     <string name="menu_title_top_headlines">Top Headlines</string>
     <string name="menu_title_explore">Explore</string>
     <string name="menu_title_settings">Settings</string>
 
     <string name="title_general_error">Something went wrong</string>
+    <string name="title_share_article">"Share text to…</string>
 
     <string name="error_connection_error">Please check your internet connection and try again.</string>
 </resources>

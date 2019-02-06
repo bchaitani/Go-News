@@ -2,9 +2,15 @@ package com.bassel.gonews.utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.format.DateFormat;
+import android.widget.ProgressBar;
 
 import com.bassel.gonews.R;
 import com.bassel.gonews.ui.activities.SplashScreenActivity;
@@ -16,6 +22,28 @@ import java.util.Date;
 import java.util.Locale;
 
 public class GeneralFunctions {
+
+    public static void changeProgressBarColor(Context context, ProgressBar progressBar, @ColorRes int color) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+
+            Drawable wrapDrawable = DrawableCompat.wrap(progressBar.getIndeterminateDrawable());
+            DrawableCompat.setTint(wrapDrawable, ContextCompat.getColor(context, color));
+            progressBar.setIndeterminateDrawable(DrawableCompat.unwrap(wrapDrawable));
+        } else {
+            progressBar.getIndeterminateDrawable().setColorFilter(ContextCompat.getColor(context, color), PorterDuff.Mode.SRC_IN);
+        }
+    }
+
+    public static void shareTextUrl(Context context, String title, String url) {
+        Intent share = new Intent(android.content.Intent.ACTION_SEND);
+        share.setType("text/plain");
+        share.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+
+        share.putExtra(Intent.EXTRA_SUBJECT, title);
+        share.putExtra(Intent.EXTRA_TEXT, url);
+
+        context.startActivity(Intent.createChooser(share, context.getResources().getString(R.string.title_share_article)));
+    }
 
     public static String getCountry() {
         Locale locale = Locale.getDefault();

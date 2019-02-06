@@ -14,9 +14,12 @@ import retrofit2.http.Query;
 public interface ApiInterface {
 
     @GET("top-headlines")
-    Call<ArticlesApiResponse> getTopHeadlines(@Query("country") String country);
+    Call<ArticlesApiResponse> getTopHeadlines(@Query("country") String country, @Query("page") int page, @Query("pageSize") int pageSize);
+
+    @GET("top-headlines")
+    Call<ArticlesApiResponse> getTopHeadlinesBySource(@Query("sources") String source, @Query("page") int page, @Query("pageSize") int pageSize);
 
     @GET("sources")
-    Call<SourcesApiResponse> getSouces();
+    Call<SourcesApiResponse> getSources();
 
 }

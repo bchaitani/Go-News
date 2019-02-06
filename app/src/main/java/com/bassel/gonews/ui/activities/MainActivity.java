@@ -14,6 +14,7 @@ import com.bassel.bottombar.OnTabReselectListener;
 import com.bassel.bottombar.OnTabSelectListener;
 import com.bassel.gonews.R;
 import com.bassel.gonews.ui.fragments.BaseFragment;
+import com.bassel.gonews.ui.fragments.FragmentExplore;
 import com.bassel.gonews.ui.fragments.FragmentTopHeadlines;
 import com.bassel.gonews.utils.navigation_utils.FragmentNavigationController;
 
@@ -116,11 +117,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public Fragment getRootFragment(int index) {
         switch (index) {
             case INDEX_TOP_HEADLINES:
-                return FragmentTopHeadlines.newInstance();
+                return FragmentTopHeadlines.newInstance(null);
             case INDEX_EXPLORE:
-                return FragmentTopHeadlines.newInstance();
+                return FragmentExplore.newInstance();
             case INDEX_SETTINGS:
-                return FragmentTopHeadlines.newInstance();
+                return FragmentTopHeadlines.newInstance(null);
         }
 
         invalidateOptionsMenu();
@@ -132,6 +133,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public void onTabTransaction(Fragment fragment, int index) {
         if (getSupportActionBar() != null && mNavController != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(!mNavController.isRootFragment());
+
+            if(!mNavController.isRootFragment()) {
+                getSupportActionBar().setIcon(0);
+            } else {
+                getSupportActionBar().setIcon(R.drawable.ic_toolbar);
+            }
         }
     }
 
@@ -139,6 +146,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public void onFragmentTransaction(Fragment fragment, FragmentNavigationController.TransactionType transactionType) {
         if (getSupportActionBar() != null && mNavController != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(!mNavController.isRootFragment());
+
+            if(!mNavController.isRootFragment()) {
+                getSupportActionBar().setIcon(0);
+            } else {
+                getSupportActionBar().setIcon(R.drawable.ic_toolbar);
+            }
         }
     }
 

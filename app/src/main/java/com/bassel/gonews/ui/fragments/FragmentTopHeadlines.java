@@ -14,6 +14,9 @@ import com.bassel.gonews.api.ApiManager;
 import com.bassel.gonews.api.OnApiRequestListener;
 import com.bassel.gonews.api.api_respones.ArticlesApiResponse;
 import com.bassel.gonews.api.model.Article;
+import com.bassel.gonews.config.Constants;
+import com.bassel.gonews.listeners.OnItemClickListener;
+import com.bassel.gonews.listeners.OnLoadMoreListener;
 import com.bassel.gonews.utils.Logger;
 import com.bassel.statefullayout.StatefulLayout;
 
@@ -24,7 +27,11 @@ import java.util.List;
  * Created by basselchaitani on 2/5/19.
  */
 
-public class FragmentTopHeadlines extends BaseFragment {
+public class FragmentTopHeadlines extends BaseFragment implements
+        OnApiRequestListener<ArticlesApiResponse>,
+        OnItemClickListener<Article>,
+        SwipeRefreshLayout.OnRefreshListener,
+        OnLoadMoreListener {
 
     private static final String TAG = FragmentTopHeadlines.class.getSimpleName();
 
@@ -36,9 +43,17 @@ public class FragmentTopHeadlines extends BaseFragment {
     private ArticlesRecyclerViewAdapter mArticlesRecyclerViewAdapter;
 
     private boolean isLoading = false;
+    private int currentPage = 1;
 
-    public static FragmentTopHeadlines newInstance() {
-        return new FragmentTopHeadlines();
+    private String sourceId;
+
+    public static FragmentTopHeadlines newInstance(Bundle bundle) {
+        FragmentTopHeadlines f = new FragmentTopHeadlines();
+        if (bundle != null) {
+            f.sourceId = bundle.getString(FragmentExplore.BUNDLE_SOURCE);
+        }
+
+        return f;
     }
 
     @Override
@@ -48,8 +63,7 @@ public class FragmentTopHeadlines extends BaseFragment {
 
     @Override
     public void refreshData(Bundle bundle) {
-        mArticlesList.clear();
-        getTopHeadlinesArticles();
+        getTopHeadlinesArticles(true);
     }
 
     @Override
@@ -58,13 +72,36 @@ public class FragmentTopHeadlines extends BaseFragment {
 
         mArticlesList = new ArrayList<>();
         mArticlesRecyclerViewAdapter = new ArticlesRecyclerViewAdapter(getActivity(), mArticlesList);
+        mArticlesRecyclerViewAdapter.setOnItemClickListener(this);
+        mArticlesRecyclerViewAdapter.setOnLoadMoreListener(this);
         mArticlesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mArticlesRecyclerView.setAdapter(mArticlesRecyclerViewAdapter);
 
-        getTopHeadlinesArticles();
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+
+        getTopHeadlinesArticles(false);
     }
 
-    private void getTopHeadlinesArticles() {
+    @Override
+    public void onRefresh() {
+        refreshData(null);
+    }
+
+    @Override
+    public void onLoadMore() {
+        getTopHeadlinesArticles(false);
+    }
+
+    @Override
+    public void onItemClick(Article article, int position) {
+        if (mFragmentNavigation != null) {
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(FragmentArticleDetails.BUNDLE_ARTICLE, article);
+            mFragmentNavigation.pushFragment(FragmentArticleDetails.newInstance(bundle));
+        }
+    }
+
+    private void getTopHeadlinesArticles(boolean isRefresh) {
         if (isLoading) {
             mSwipeRefreshLayout.setRefreshing(false);
             return;
@@ -76,34 +113,54 @@ public class FragmentTopHeadlines extends BaseFragment {
             mSwipeRefreshLayout.setRefreshing(true);
         }
 
+        if (isRefresh) {
+            mArticlesList.clear();
+        }
+
+        currentPage = (mArticlesList.size() / Constants.PAGE_SIZE) + 1;
+
         isLoading = true;
 
-        ApiManager.getInstance().getTopHeadlines(new OnApiRequestListener<ArticlesApiResponse>() {
-            @Override
-            public void onResultReady(ArticlesApiResponse result) {
-                Logger.i(TAG, "getTopHeadlines Success");
+        if (sourceId != null) {
+            ApiManager.getInstance().getTopHeadlinesBySource(currentPage, sourceId, this);
+        } else {
+            ApiManager.getInstance().getTopHeadlines(currentPage, this);
+        }
+    }
 
-                mArticlesList.addAll(result.getArticles());
+    @Override
+    public void onResultReady(ArticlesApiResponse result) {
+        Logger.i(TAG, "getTopHeadlines Success");
 
-                mArticlesRecyclerViewAdapter.notifyDataSetChanged();
+        mArticlesList.addAll(result.getArticles());
 
-                mStatefulLayout.showContent();
-                mSwipeRefreshLayout.setRefreshing(false);
-                isLoading = false;
-            }
+        Logger.e("currentPage", currentPage + "");
+        Logger.e("result.getTotalResults()", result.getTotalResults() + "");
+        Logger.e("mArticlesList.size()", mArticlesList.size() + "");
 
-            @Override
-            public void onConnectionError() {
-                Logger.w(TAG, "getTopHeadlines Connection Error");
-                // TODO
-            }
+        if (result.getTotalResults() == mArticlesList.size()) {
+            mArticlesRecyclerViewAdapter.setMoreDataAvailable(false);
+        } else {
+            mArticlesRecyclerViewAdapter.setMoreDataAvailable(true);
+        }
 
-            @Override
-            public void onApiError(String code, String message) {
-                Logger.e(TAG, "getTopHeadlines Error: " + message);
-                // TODO
-            }
-        });
+        mArticlesRecyclerViewAdapter.notifyDataChanged();
+
+        mStatefulLayout.showContent();
+        mSwipeRefreshLayout.setRefreshing(false);
+        isLoading = false;
+    }
+
+    @Override
+    public void onConnectionError() {
+        Logger.w(TAG, "getTopHeadlines Connection Error");
+        // TODO
+    }
+
+    @Override
+    public void onApiError(String code, String message) {
+        Logger.e(TAG, "getTopHeadlines Error: " + message);
+        // TODO
     }
 
     @Override

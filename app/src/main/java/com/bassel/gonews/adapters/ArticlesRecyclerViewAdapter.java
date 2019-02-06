@@ -13,7 +13,9 @@ import android.widget.TextView;
 import com.bassel.gonews.R;
 import com.bassel.gonews.api.model.Article;
 import com.bassel.gonews.listeners.OnItemClickListener;
+import com.bassel.gonews.listeners.OnLoadMoreListener;
 import com.bassel.gonews.utils.GeneralFunctions;
+import com.bassel.gonews.utils.LoadMoreViewHolder;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.RequestOptions;
@@ -23,13 +25,19 @@ import java.util.List;
 /**
  * Created by basselchaitani on 2/5/19.
  */
-public class ArticlesRecyclerViewAdapter extends RecyclerView.Adapter<ArticlesRecyclerViewAdapter.ArticleViewHolder> {
+public class ArticlesRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    private static final int VIEW_TYPE_ITEM = 0;
+    private static final int VIEW_TYPE_LOAD_MORE = 1;
 
     private Context mContext;
     private LayoutInflater mInflater;
 
     private List<Article> mArticlesList;
     private OnItemClickListener<Article> mOnItemClickListener;
+
+    private OnLoadMoreListener onLoadMoreListener;
+    private boolean isLoading = false, isMoreDataAvailable = true;
 
     public ArticlesRecyclerViewAdapter(Context context, List<Article> articles) {
         this.mContext = context;
@@ -40,21 +48,48 @@ public class ArticlesRecyclerViewAdapter extends RecyclerView.Adapter<ArticlesRe
 
     @NonNull
     @Override
-    public ArticleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = mInflater.inflate(R.layout.row_article, parent, false);
-        return new ArticleViewHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        if (viewType == VIEW_TYPE_LOAD_MORE) {
+            return new LoadMoreViewHolder(mInflater.inflate(R.layout.view_load_more, parent, false));
+        } else {
+            return new ArticleViewHolder(mInflater.inflate(R.layout.row_article, parent, false));
+        }
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ArticleViewHolder holder, int position) {
-        Article article = mArticlesList.get(position);
-        holder.bindArticle(article);
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (position >= getItemCount() - 1 && isMoreDataAvailable && !isLoading && onLoadMoreListener != null) {
+            isLoading = true;
+            onLoadMoreListener.onLoadMore();
+        }
 
+        if (getItemViewType(position) == VIEW_TYPE_ITEM) {
+            Article article = mArticlesList.get(position);
+            ((ArticleViewHolder) holder).bindArticle(article);
+        }
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return (isMoreDataAvailable && mArticlesList.size() > 0 && (position == mArticlesList.size() - 1)) ? VIEW_TYPE_LOAD_MORE : VIEW_TYPE_ITEM;
     }
 
     @Override
     public int getItemCount() {
-        return mArticlesList.size();
+        return mArticlesList == null ? 0 : mArticlesList.size();
+    }
+
+    public void setMoreDataAvailable(boolean moreDataAvailable) {
+        isMoreDataAvailable = moreDataAvailable;
+    }
+
+    public void notifyDataChanged() {
+        notifyDataSetChanged();
+        isLoading = false;
+    }
+
+    public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
+        this.onLoadMoreListener = onLoadMoreListener;
     }
 
     public void setOnItemClickListener(OnItemClickListener<Article> onItemClickListener) {

@@ -8,6 +8,7 @@ import com.bassel.gonews.BuildConfig;
 import com.bassel.gonews.R;
 import com.bassel.gonews.api.api_respones.ArticlesApiResponse;
 import com.bassel.gonews.api.api_respones.SourcesApiResponse;
+import com.bassel.gonews.config.Constants;
 import com.bassel.gonews.utils.GeneralFunctions;
 import com.bassel.gonews.utils.Logger;
 import com.bassel.gonews.utils.NetworkHelper;
@@ -37,12 +38,17 @@ public class ApiManager {
     }
 
     public void getSources(OnApiRequestListener<SourcesApiResponse> listener) {
-        Call<SourcesApiResponse> call = ApiClient.getInstance().getApiService().getSouces();
+        Call<SourcesApiResponse> call = ApiClient.getInstance().getApiService().getSources();
         requestSourcesCall(call, listener);
     }
 
-    public void getTopHeadlines(OnApiRequestListener<ArticlesApiResponse> listener) {
-        Call<ArticlesApiResponse> call = ApiClient.getInstance().getApiService().getTopHeadlines(GeneralFunctions.getCountry());
+    public void getTopHeadlines(int currentPage, OnApiRequestListener<ArticlesApiResponse> listener) {
+        Call<ArticlesApiResponse> call = ApiClient.getInstance().getApiService().getTopHeadlines(GeneralFunctions.getCountry(), currentPage, Constants.PAGE_SIZE);
+        requestTopHeadlinesCall(call, listener);
+    }
+
+    public void getTopHeadlinesBySource(int currentPage, String source, OnApiRequestListener<ArticlesApiResponse> listener) {
+        Call<ArticlesApiResponse> call = ApiClient.getInstance().getApiService().getTopHeadlinesBySource(source, currentPage, Constants.PAGE_SIZE);
         requestTopHeadlinesCall(call, listener);
     }
 
