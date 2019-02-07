@@ -72,7 +72,7 @@ public class FragmentExplore extends BaseFragment implements OnItemClickListener
         if(getActivity() != null) {
             Bundle bundle = new Bundle();
             bundle.putString(BUNDLE_SOURCE, source.getSourceId());
-            mFragmentNavigation.pushFragment(FragmentTopHeadlines.newInstance(bundle));
+            mFragmentNavigation.pushFragment(FragmentArticles.newInstance(bundle));
         }
     }
 

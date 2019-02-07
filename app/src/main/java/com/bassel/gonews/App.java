@@ -3,7 +3,9 @@ package com.bassel.gonews;
 import android.app.Application;
 import android.content.Context;
 
+import com.bassel.gonews.config.Constants;
 import com.bassel.gonews.utils.GeneralFunctions;
+import com.bassel.gonews.utils.LocaleHelper;
 import com.bassel.gonews.utils.Logger;
 
 /**
@@ -43,5 +45,10 @@ public class App extends Application {
         }
 
         return appContext;
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(LocaleHelper.onAttach(base, Constants.ENGLISH));
     }
 }

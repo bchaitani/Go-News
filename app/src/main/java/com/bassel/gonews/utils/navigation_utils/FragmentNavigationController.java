@@ -28,7 +28,7 @@ import java.util.Stack;
 public class FragmentNavigationController {
 
 
-    //Declare the constants  There is a maximum of 5 tabs, this is per Material Design's Bottom Navigation's design spec.
+    //Declare the constants  There is a maximum of 5 menu_tabs, this is per Material Design's Bottom Navigation's design spec.
     public static final int NO_TAB = -1;
     public static final int TAB1 = 0;
     public static final int TAB2 = 1;
@@ -110,7 +110,7 @@ public class FragmentNavigationController {
         if (index >= mFragmentStacks.size()) {
             throw new IndexOutOfBoundsException("Can't switch to a tab that hasn't been initialized, " +
                     "Index : " + index + ", current stack size : " + mFragmentStacks.size() +
-                    ". Make sure to create all of the tabs you need in the Constructor or provide a way for them to be created via RootFragmentListener.");
+                    ". Make sure to create all of the menu_tabs you need in the Constructor or provide a way for them to be created via RootFragmentListener.");
         }
         if (mSelectedTabIndex != index) {
             mSelectedTabIndex = index;
@@ -977,13 +977,13 @@ public class FragmentNavigationController {
 
         /**
          * @param rootFragmentListener a listener that allows for dynamically creating root fragments
-         * @param numberOfTabs         the number of tabs that will be switched between
+         * @param numberOfTabs         the number of menu_tabs that will be switched between
          */
         public Builder rootFragmentListener(RootFragmentListener rootFragmentListener, int numberOfTabs) {
             mRootFragmentListener = rootFragmentListener;
             mNumberOfTabs = numberOfTabs;
             if (mNumberOfTabs > MAX_NUM_TABS) {
-                throw new IllegalArgumentException("Number of tabs cannot be greater than " + MAX_NUM_TABS);
+                throw new IllegalArgumentException("Number of menu_tabs cannot be greater than " + MAX_NUM_TABS);
             }
             return this;
         }

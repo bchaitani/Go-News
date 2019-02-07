@@ -2,8 +2,6 @@ package com.bassel.gonews.ui.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -15,14 +13,15 @@ import com.bassel.bottombar.OnTabSelectListener;
 import com.bassel.gonews.R;
 import com.bassel.gonews.ui.fragments.BaseFragment;
 import com.bassel.gonews.ui.fragments.FragmentExplore;
-import com.bassel.gonews.ui.fragments.FragmentTopHeadlines;
+import com.bassel.gonews.ui.fragments.FragmentSettings;
+import com.bassel.gonews.ui.fragments.FragmentArticles;
 import com.bassel.gonews.utils.navigation_utils.FragmentNavigationController;
 
 /**
  * Created by basselchaitani on 2/5/19.
  */
 
-public class MainActivity extends AppCompatActivity implements SearchView.OnQueryTextListener,
+public class MainActivity extends BaseActivity implements SearchView.OnQueryTextListener,
         BaseFragment.FragmentNavigation,
         FragmentNavigationController.TransactionListener,
         FragmentNavigationController.RootFragmentListener,
@@ -38,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     private FragmentNavigationController mNavController;
 
     private BottomBar mBottomBar;
+    private SearchView mSearchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,11 +117,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
     public Fragment getRootFragment(int index) {
         switch (index) {
             case INDEX_TOP_HEADLINES:
-                return FragmentTopHeadlines.newInstance(null);
+                return FragmentArticles.newInstance(null);
             case INDEX_EXPLORE:
                 return FragmentExplore.newInstance();
             case INDEX_SETTINGS:
-                return FragmentTopHeadlines.newInstance(null);
+                return FragmentSettings.newInstance();
         }
 
         invalidateOptionsMenu();
@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         if (getSupportActionBar() != null && mNavController != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(!mNavController.isRootFragment());
 
-            if(!mNavController.isRootFragment()) {
+            if (!mNavController.isRootFragment()) {
                 getSupportActionBar().setIcon(0);
             } else {
                 getSupportActionBar().setIcon(R.drawable.ic_toolbar);
@@ -147,7 +147,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         if (getSupportActionBar() != null && mNavController != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(!mNavController.isRootFragment());
 
-            if(!mNavController.isRootFragment()) {
+            if (!mNavController.isRootFragment()) {
                 getSupportActionBar().setIcon(0);
             } else {
                 getSupportActionBar().setIcon(R.drawable.ic_toolbar);
@@ -157,6 +157,18 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
 
     @Override
     public boolean onQueryTextSubmit(String s) {
+        if (s.trim().length() > 0) {
+            Bundle bundle = new Bundle();
+            bundle.putString(FragmentArticles.BUNDLE_SEARCH_QUERY, s);
+            mNavController.pushFragment(FragmentArticles.newInstance(bundle));
+
+            if (mSearchView != null) {
+                mSearchView.clearFocus();
+            }
+
+            return true;
+        }
+
         return false;
     }
 
@@ -170,8 +182,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnQuer
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
         final MenuItem searchItem = menu.findItem(R.id.action_search);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setOnQueryTextListener(this);
+        mSearchView = (SearchView) searchItem.getActionView();
+        mSearchView.setQueryHint(getResources().getString(R.string.hint_search_articles));
+        mSearchView.setOnQueryTextListener(this);
 
         return true;
     }

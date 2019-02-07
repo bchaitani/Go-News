@@ -19,6 +19,9 @@ public interface ApiInterface {
     @GET("top-headlines")
     Call<ArticlesApiResponse> getTopHeadlinesBySource(@Query("sources") String source, @Query("page") int page, @Query("pageSize") int pageSize);
 
+    @GET("top-headlines")
+    Call<ArticlesApiResponse> searchForHeadLines(@Query("q") String query, @Query("page") int page, @Query("pageSize") int pageSize);
+
     @GET("sources")
     Call<SourcesApiResponse> getSources();
 

@@ -1,8 +1,14 @@
 <resources>
     <string name="app_name">GoNews</string>
 
+    <string name="language">Language</string>
+    <string name="english">English</string>
+    <string name="arabic">العربية</string>
+
     <string name="action_search">Search</string>
     <string name="action_share">Share</string>
+
+    <string name="hint_search_articles">Search Articles…</string>
 
     <string name="menu_title_top_headlines">Top Headlines</string>
     <string name="menu_title_explore">Explore</string>

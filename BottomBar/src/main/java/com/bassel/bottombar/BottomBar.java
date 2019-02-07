@@ -606,7 +606,7 @@ public class BottomBar extends LinearLayout implements View.OnClickListener, Vie
     }
 
     /**
-     * Find the tabs' position in the container by id.
+     * Find the menu_tabs' position in the container by id.
      */
     public int findPositionForTabWithId(@IdRes int tabId) {
         return getTabWithId(tabId).getIndexInTabContainer();
@@ -698,7 +698,7 @@ public class BottomBar extends LinearLayout implements View.OnClickListener, Vie
     }
 
     /**
-     * Controls whether the badge (if any) for active tabs
+     * Controls whether the badge (if any) for active menu_tabs
      * should be hidden or not.
      */
     public void setBadgesHideWhenActive(final boolean hideWhenSelected) {

@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">GoNews</string>
+
+    <string name="language">اللغة</string>
+    <string name="english">English</string>
+    <string name="arabic">العربية</string>
+
+    <string name="action_search">بحث</string>
+    <string name="action_share">شارك</string>
+
+    <string name="hint_search_articles">بحث المقالات…</string>
+
+    <string name="menu_title_top_headlines">أحدث الأخبار</string>
+    <string name="menu_title_explore">إكتشف</string>
+    <string name="menu_title_settings">الإعدادات</string>
+
+    <string name="title_general_error">هناك خطأ ما</string>
+    <string name="title_share_article">"مشاركة الخبر في…</string>
+
+    <string name="error_connection_error">يرجى التحقق من اتصال الإنترنت الخاص بك وحاول مرة أخرى.</string>
+</resources>

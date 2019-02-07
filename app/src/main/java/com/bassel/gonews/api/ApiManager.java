@@ -47,6 +47,11 @@ public class ApiManager {
         requestTopHeadlinesCall(call, listener);
     }
 
+    public void searchArticles(int currentPage, String query, OnApiRequestListener<ArticlesApiResponse> listener) {
+        Call<ArticlesApiResponse> call = ApiClient.getInstance().getApiService().searchForHeadLines(query, currentPage, Constants.PAGE_SIZE);
+        requestTopHeadlinesCall(call, listener);
+    }
+
     public void getTopHeadlinesBySource(int currentPage, String source, OnApiRequestListener<ArticlesApiResponse> listener) {
         Call<ArticlesApiResponse> call = ApiClient.getInstance().getApiService().getTopHeadlinesBySource(source, currentPage, Constants.PAGE_SIZE);
         requestTopHeadlinesCall(call, listener);

@@ -27,13 +27,15 @@ import java.util.List;
  * Created by basselchaitani on 2/5/19.
  */
 
-public class FragmentTopHeadlines extends BaseFragment implements
+public class FragmentArticles extends BaseFragment implements
         OnApiRequestListener<ArticlesApiResponse>,
         OnItemClickListener<Article>,
         SwipeRefreshLayout.OnRefreshListener,
         OnLoadMoreListener {
 
-    private static final String TAG = FragmentTopHeadlines.class.getSimpleName();
+    private static final String TAG = FragmentArticles.class.getSimpleName();
+
+    public static final String BUNDLE_SEARCH_QUERY = "search_query";
 
     private StatefulLayout mStatefulLayout;
     private SwipeRefreshLayout mSwipeRefreshLayout;
@@ -45,12 +47,13 @@ public class FragmentTopHeadlines extends BaseFragment implements
     private boolean isLoading = false;
     private int currentPage = 1;
 
-    private String sourceId;
+    private String sourceId, searchQuery;
 
-    public static FragmentTopHeadlines newInstance(Bundle bundle) {
-        FragmentTopHeadlines f = new FragmentTopHeadlines();
+    public static FragmentArticles newInstance(Bundle bundle) {
+        FragmentArticles f = new FragmentArticles();
         if (bundle != null) {
             f.sourceId = bundle.getString(FragmentExplore.BUNDLE_SOURCE);
+            f.searchQuery = bundle.getString(BUNDLE_SEARCH_QUERY);
         }
 
         return f;
@@ -123,6 +126,8 @@ public class FragmentTopHeadlines extends BaseFragment implements
 
         if (sourceId != null) {
             ApiManager.getInstance().getTopHeadlinesBySource(currentPage, sourceId, this);
+        } else if (searchQuery != null) {
+            ApiManager.getInstance().searchArticles(currentPage, searchQuery, this);
         } else {
             ApiManager.getInstance().getTopHeadlines(currentPage, this);
         }

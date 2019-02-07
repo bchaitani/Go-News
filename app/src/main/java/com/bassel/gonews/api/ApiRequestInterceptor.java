@@ -2,7 +2,9 @@ package com.bassel.gonews.api;
 
 import android.support.annotation.NonNull;
 
+import com.bassel.gonews.App;
 import com.bassel.gonews.BuildConfig;
+import com.bassel.gonews.utils.LocaleHelper;
 
 import java.io.IOException;
 
@@ -22,7 +24,10 @@ public class ApiRequestInterceptor implements Interceptor {
     public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
         String apiKey = BuildConfig.API_KEY;
-        HttpUrl url = request.url().newBuilder().addQueryParameter("apiKey", apiKey).build();
+        HttpUrl url = request.url().newBuilder()
+                .addQueryParameter("apiKey", apiKey)
+                .addQueryParameter("language", LocaleHelper.getLanguage(App.getContext()))
+                .build();
         request = request.newBuilder().url(url).build();
         return chain.proceed(request);
     }
