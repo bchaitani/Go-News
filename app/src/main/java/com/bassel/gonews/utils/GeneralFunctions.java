@@ -1,5 +1,6 @@
 package com.bassel.gonews.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -7,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorRes;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.text.format.DateFormat;
@@ -51,12 +53,12 @@ public class GeneralFunctions {
         return country.toLowerCase();
     }
 
-    public static void restartApp(Context context) {
-        Intent i = new Intent(context, SplashScreenActivity.class);
+    public static void restartApp(@NonNull Activity activity) {
+        Intent i = new Intent(activity, SplashScreenActivity.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(i);
+        activity.startActivity(i);
+        activity.finish();
     }
 
     public static ColorDrawable getPlaceholderColorDrawable(Context context) {

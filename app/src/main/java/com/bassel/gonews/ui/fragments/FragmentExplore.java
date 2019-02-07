@@ -24,7 +24,7 @@ import java.util.List;
 /**
  * Created by basselchaitani on 2/5/19.
  */
-public class FragmentExplore extends BaseFragment implements OnItemClickListener<Source> {
+public class FragmentExplore extends BaseFragment implements OnItemClickListener<Source>, SwipeRefreshLayout.OnRefreshListener {
 
     private static final String TAG = FragmentExplore.class.getSimpleName();
 
@@ -51,7 +51,7 @@ public class FragmentExplore extends BaseFragment implements OnItemClickListener
     @Override
     public void refreshData(Bundle bundle) {
         mSourcesList.clear();
-        getSources();
+        getSources(true);
     }
 
     @Override
@@ -64,19 +64,26 @@ public class FragmentExplore extends BaseFragment implements OnItemClickListener
         mSourcesRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mSourcesRecyclerView.setAdapter(mSourcesRecyclerViewAdapter);
 
-        getSources();
+        mSwipeRefreshLayout.setOnRefreshListener(this);
+
+        getSources(false);
+    }
+
+    @Override
+    public void onRefresh() {
+        refreshData(null);
     }
 
     @Override
     public void onItemClick(Source source, int position) {
-        if(getActivity() != null) {
+        if (getActivity() != null) {
             Bundle bundle = new Bundle();
             bundle.putString(BUNDLE_SOURCE, source.getSourceId());
             mFragmentNavigation.pushFragment(FragmentArticles.newInstance(bundle));
         }
     }
 
-    private void getSources() {
+    private void getSources(boolean isRefresh) {
         if (isLoading) {
             mSwipeRefreshLayout.setRefreshing(false);
             return;
@@ -107,13 +114,23 @@ public class FragmentExplore extends BaseFragment implements OnItemClickListener
             @Override
             public void onConnectionError() {
                 Logger.w(TAG, "getTopHeadlines Connection Error");
-                // TODO
+                mStatefulLayout.showError(getResources().getString(R.string.error_connection_error), new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        getSources(true);
+                    }
+                });
             }
 
             @Override
             public void onApiError(String code, String message) {
                 Logger.e(TAG, "getTopHeadlines Error: " + message);
-                // TODO
+                mStatefulLayout.showError(message, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        getSources(true);
+                    }
+                });
             }
         });
     }

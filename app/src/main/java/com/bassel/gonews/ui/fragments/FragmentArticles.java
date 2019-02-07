@@ -159,13 +159,23 @@ public class FragmentArticles extends BaseFragment implements
     @Override
     public void onConnectionError() {
         Logger.w(TAG, "getTopHeadlines Connection Error");
-        // TODO
+        mStatefulLayout.showError(getResources().getString(R.string.error_connection_error), new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getTopHeadlinesArticles(true);
+            }
+        });
     }
 
     @Override
     public void onApiError(String code, String message) {
         Logger.e(TAG, "getTopHeadlines Error: " + message);
-        // TODO
+        mStatefulLayout.showError(message, new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                getTopHeadlinesArticles(true);
+            }
+        });
     }
 
     @Override

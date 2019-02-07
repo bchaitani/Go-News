@@ -66,7 +66,7 @@ public class FragmentSettings extends BaseFragment implements RadioGroup.OnCheck
                 break;
         }
 
-        if (!LocaleHelper.getLanguage(getActivity()).equals(locale)) {
+        if (getActivity() != null && !LocaleHelper.getLanguage(getActivity()).equals(locale)) {
             LocaleHelper.setLocale(getActivity(), locale);
             GeneralFunctions.restartApp(getActivity());
         }
