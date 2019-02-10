@@ -20,15 +20,15 @@
                 android:id="@+id/iv"
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
-                android:scaleType="centerCrop"
-                android:transitionName="img"
-                tools:ignore="UnusedAttribute" />
+                android:contentDescription="@string/content_description"
+                android:scaleType="centerCrop" />
 
             <ImageView
                 android:id="@+id/shadow_bottom"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
                 android:layout_alignBottom="@id/iv"
+                android:contentDescription="@string/content_description"
                 android:src="@drawable/shadow_bottom" />
 
             <TextView

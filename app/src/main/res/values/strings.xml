@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">GoNews</string>
 
+    <string name="content_description" translatable="false">ImageView Content Description</string>
+
     <string name="language">Language</string>
     <string name="english">English</string>
     <string name="arabic">العربية</string>

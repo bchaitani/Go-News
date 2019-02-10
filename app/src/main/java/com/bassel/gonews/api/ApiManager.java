@@ -60,7 +60,7 @@ public class ApiManager {
     private void requestSourcesCall(@NonNull Call<SourcesApiResponse> call, final OnApiRequestListener<SourcesApiResponse> listener) {
         final Context context = App.getContext();
         if (context != null && listener != null) {
-            if (!NetworkHelper.isNetworkAvailable(context)) {
+            if (NetworkHelper.isNetworkAvailable(context)) {
                 listener.onConnectionError();
             } else {
                 call.enqueue(new Callback<SourcesApiResponse>() {
@@ -97,7 +97,7 @@ public class ApiManager {
     private void requestTopHeadlinesCall(@NonNull Call<ArticlesApiResponse> call, final OnApiRequestListener<ArticlesApiResponse> listener) {
         final Context context = App.getContext();
         if (context != null && listener != null) {
-            if (!NetworkHelper.isNetworkAvailable(context)) {
+            if (NetworkHelper.isNetworkAvailable(context)) {
                 listener.onConnectionError();
             } else {
                 call.enqueue(new Callback<ArticlesApiResponse>() {

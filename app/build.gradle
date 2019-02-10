@@ -47,6 +47,8 @@ dependencies {
     implementation project(':StatefulLayout')
 
     testImplementation "junit:junit:$J_UNIT_VERSION"
+    testImplementation "org.mockito:mockito-core:$MOCKITO_VERSION"
+    androidTestImplementation "org.mockito:mockito-android:$MOCKITO_VERSION"
     androidTestImplementation "com.android.support.test:runner:$SUPPORT_TEST_RUNNER_VERSION"
     androidTestImplementation "com.android.support.test.espresso:espresso-core:$ESPRESSO_CORE_VERSION"
 }

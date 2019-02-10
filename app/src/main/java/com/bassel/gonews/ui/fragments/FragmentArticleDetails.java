@@ -52,6 +52,15 @@ public class FragmentArticleDetails extends BaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
 
+        if (mArticle != null) {
+            fillArticleDetailsInfo();
+        }
+    }
+
+    /**
+     * Populate article details data
+     */
+    private void fillArticleDetailsInfo() {
         if (getActivity() != null && mArticle != null) {
             Glide.with(getActivity())
                     .load(mArticle.getImageUrl())

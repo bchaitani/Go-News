@@ -48,9 +48,11 @@ public class FragmentExplore extends BaseFragment implements OnItemClickListener
         return R.layout.fragment_recycler_view;
     }
 
+    /**
+     * Refresh the articles list
+     */
     @Override
     public void refreshData(Bundle bundle) {
-        mSourcesList.clear();
         getSources(true);
     }
 
@@ -69,11 +71,19 @@ public class FragmentExplore extends BaseFragment implements OnItemClickListener
         getSources(false);
     }
 
+    /**
+     * Refresh the articles list
+     */
     @Override
     public void onRefresh() {
         refreshData(null);
     }
 
+    /**
+     * On News Source List Item Click
+     * @param source Source object
+     * @param position Position of the clicked item int the list
+     */
     @Override
     public void onItemClick(Source source, int position) {
         if (getActivity() != null) {
@@ -83,6 +93,11 @@ public class FragmentExplore extends BaseFragment implements OnItemClickListener
         }
     }
 
+    /**
+     * Get News Different Sources
+     * @param isRefresh true if the user is refreshing the list of articles,
+     *                  false if it is the normal loading of the articles or it is loading more articles
+     */
     private void getSources(boolean isRefresh) {
         if (isLoading) {
             mSwipeRefreshLayout.setRefreshing(false);
@@ -95,9 +110,18 @@ public class FragmentExplore extends BaseFragment implements OnItemClickListener
             mSwipeRefreshLayout.setRefreshing(true);
         }
 
+        if (isRefresh) {
+            mSourcesList.clear();
+        }
+
         isLoading = true;
 
         ApiManager.getInstance().getSources(new OnApiRequestListener<SourcesApiResponse>() {
+
+            /**
+             * When the api call is done and the results are ready
+             * @param result The api call result
+             */
             @Override
             public void onResultReady(SourcesApiResponse result) {
                 Logger.i(TAG, "getTopHeadlines Success");
@@ -111,6 +135,9 @@ public class FragmentExplore extends BaseFragment implements OnItemClickListener
                 isLoading = false;
             }
 
+            /**
+             * When the Api call had a connection error
+             */
             @Override
             public void onConnectionError() {
                 Logger.w(TAG, "getTopHeadlines Connection Error");
@@ -122,6 +149,11 @@ public class FragmentExplore extends BaseFragment implements OnItemClickListener
                 });
             }
 
+            /**
+             * Api Call Error Occurred
+             * @param code status code returned by the API on Error
+             * @param message message code returned by the API on Error
+             */
             @Override
             public void onApiError(String code, String message) {
                 Logger.e(TAG, "getTopHeadlines Error: " + message);

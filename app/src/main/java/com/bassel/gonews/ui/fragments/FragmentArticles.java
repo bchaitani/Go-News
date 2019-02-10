@@ -85,16 +85,27 @@ public class FragmentArticles extends BaseFragment implements
         getTopHeadlinesArticles(false);
     }
 
+    /**
+     * Refresh the articles list
+     */
     @Override
     public void onRefresh() {
         refreshData(null);
     }
 
+    /**
+     * Load more articles (This is triggered when the scroll position is at the bottom of the list)
+     */
     @Override
     public void onLoadMore() {
         getTopHeadlinesArticles(false);
     }
 
+    /**
+     * On Article List Item Click
+     * @param article Article object
+     * @param position Position of the clicked item int the list
+     */
     @Override
     public void onItemClick(Article article, int position) {
         if (mFragmentNavigation != null) {
@@ -104,6 +115,11 @@ public class FragmentArticles extends BaseFragment implements
         }
     }
 
+    /**
+     * Get Top Headlines Articles
+     * @param isRefresh true if the user is refreshing the list of articles,
+     *                  false if it is the normal loading of the articles or it is loading more articles
+     */
     private void getTopHeadlinesArticles(boolean isRefresh) {
         if (isLoading) {
             mSwipeRefreshLayout.setRefreshing(false);
@@ -133,6 +149,10 @@ public class FragmentArticles extends BaseFragment implements
         }
     }
 
+    /**
+     * When the api call is done and the results are ready
+     * @param result The api call result
+     */
     @Override
     public void onResultReady(ArticlesApiResponse result) {
         Logger.i(TAG, "getTopHeadlines Success");
@@ -156,6 +176,9 @@ public class FragmentArticles extends BaseFragment implements
         isLoading = false;
     }
 
+    /**
+     * When the Api call had a connection error
+     */
     @Override
     public void onConnectionError() {
         Logger.w(TAG, "getTopHeadlines Connection Error");
@@ -167,6 +190,11 @@ public class FragmentArticles extends BaseFragment implements
         });
     }
 
+    /**
+     * Api Call Error Occurred
+     * @param code status code returned by the API on Error
+     * @param message message code returned by the API on Error
+     */
     @Override
     public void onApiError(String code, String message) {
         Logger.e(TAG, "getTopHeadlines Error: " + message);

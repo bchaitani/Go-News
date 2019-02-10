@@ -3,7 +3,6 @@ package com.bassel.gonews.utils;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.annotation.NonNull;
 
 public class NetworkHelper {
 
@@ -11,9 +10,9 @@ public class NetworkHelper {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         if (connectivityManager != null) {
             NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+            return activeNetworkInfo == null || !activeNetworkInfo.isConnected();
         }
 
-        return false;
+        return true;
     }
 }

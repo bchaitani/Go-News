@@ -24,7 +24,7 @@ public class ApiClient {
     private static ApiClient apiClient;
     private ApiInterface apiService;
 
-    public static ApiClient getInstance() {
+    private static ApiClient getInstance() {
         if (apiClient == null) {
             apiClient = new ApiClient();
         }
@@ -32,7 +32,7 @@ public class ApiClient {
         return apiClient;
     }
 
-    public ApiClient() {
+    private ApiClient() {
 
         OkHttpClient.Builder okHttpClientBuilder = new OkHttpClient.Builder();
 

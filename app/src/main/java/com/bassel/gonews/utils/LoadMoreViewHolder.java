@@ -11,13 +11,9 @@ import com.bassel.gonews.R;
  */
 public class LoadMoreViewHolder extends RecyclerView.ViewHolder {
 
-    private ProgressBar mProgressBar;
-
     public LoadMoreViewHolder(View itemView) {
         super(itemView);
-
-        mProgressBar = itemView.findViewById(R.id.load_more_progress_bar);
-
+        ProgressBar mProgressBar = itemView.findViewById(R.id.load_more_progress_bar);
         GeneralFunctions.changeProgressBarColor(itemView.getContext(), mProgressBar, R.color.colorPrimary);
     }
 }
